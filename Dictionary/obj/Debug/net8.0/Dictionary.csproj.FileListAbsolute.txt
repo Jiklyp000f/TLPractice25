@@ -1,0 +1,14 @@
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\bin\Debug\net8.0\Dictionary.exe
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\bin\Debug\net8.0\Dictionary.deps.json
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\bin\Debug\net8.0\Dictionary.runtimeconfig.json
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\bin\Debug\net8.0\Dictionary.dll
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\bin\Debug\net8.0\Dictionary.pdb
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.AssemblyInfoInputs.cache
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.AssemblyInfo.cs
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.csproj.CoreCompileInputs.cache
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.dll
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\refint\Dictionary.dll
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.pdb
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\Dictionary.genruntimeconfig.cache
+C:\Users\JIKLY\source\repos\Dictionary\Dictionary\obj\Debug\net8.0\ref\Dictionary.dll
