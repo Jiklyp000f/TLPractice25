@@ -5,7 +5,7 @@
         var user = new User();
         var Container = new List<IProduct> { new Milk(), new Bread() };
         Console.Write( "Здравствуйте введите пожалуйста свои данные!\nВаше имя: " );
-        user.UserName = Console.ReadLine();
+        user.Name = Console.ReadLine();
         Console.Write( "Адрес доставки: " );
         user.Adress = Console.ReadLine();
         Menu( Container, user );
@@ -24,12 +24,12 @@
                 case "1":
                 case "молоко":
                     x = CountProduct();
-                    Container[ 0 ].CountProduct = x;
+                    Container[ 0 ].StockCount = x;
                     break;
                 case "2":
                 case "хлеб":
                     x = CountProduct();
-                    Container[ 1 ].CountProduct = x;
+                    Container[ 1 ].StockCount = x;
                     break;
                 case "3":
                 case "y":
@@ -58,15 +58,15 @@
     static void ShowSuccessMessage( List<IProduct> container, User user )
     {
         var orderedProducts = container
-            .Where( p => p.CountProduct > 0 )
-            .Select( p => $"{p.CountProduct} {p.ProductName.ToLower()}" )
+            .Where( p => p.StockCount > 0 )
+            .Select( p => $"{p.StockCount} {p.Name.ToLower()}" )
             .ToList();
 
         if ( orderedProducts.Any() )
         {
             string orderDetails = string.Join( ", ", orderedProducts );
             string deliveryDate = DateTime.Now.AddDays( 3 ).ToString( "dd.MM.yyyy" );
-            Console.WriteLine( $"{user.UserName}! Ваш заказ {orderDetails} оформлен! Ожидайте доставку по адресу {user.Adress} к {deliveryDate}" );
+            Console.WriteLine( $"{user.Name}! Ваш заказ {orderDetails} оформлен! Ожидайте доставку по адресу {user.Adress} к {deliveryDate}" );
         }
         else
         {
@@ -74,12 +74,13 @@
         }
     }
 
+
     static string ConfirmOrder( List<IProduct> container, User user )
     {
         // Формируем список продуктов с CountProduct > 0
         var orderedProducts = container
-            .Where( p => p.CountProduct > 0 )
-            .Select( p => $"{p.CountProduct} {p.ProductName.ToLower()}" ) // Пример: "2 молоко"
+            .Where( p => p.StockCount > 0 )
+            .Select( p => $"{p.StockCount} {p.Name.ToLower()}" ) // Пример: "2 молоко"
             .ToList();
 
         string orderDetails = orderedProducts.Any()
@@ -87,7 +88,7 @@
             : "ничего не заказано";
 
         // Выводим сообщение
-        Console.WriteLine( $"Здравствуйте, {user.UserName}, вы заказали {orderDetails} на адрес {user.Adress}. Все верно? (Y/N)" );
+        Console.WriteLine( $"Здравствуйте, {user.Name}, вы заказали {orderDetails} на адрес {user.Adress}. Все верно? (Y/N)" );
         return Console.ReadLine();
     }
 
@@ -102,12 +103,13 @@
             Console.WriteLine( "Введите целое положительное число!" );
         }
     }
+
     static void ListOfProducts( List<IProduct> Container )
     {
         int countProduct = 1;
         foreach ( var product in Container )
         {
-            Console.WriteLine( $"{countProduct}. {product.ProductName}" );
+            Console.WriteLine( $"{countProduct}. {product.Name}" );
             countProduct++;
         }
         Console.WriteLine( $"{countProduct}. Подтвердить заказ?(Y)" );

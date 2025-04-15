@@ -1,5 +1,5 @@
 ﻿public class Bread : IProduct
 {
-    string IProduct.ProductName { get; } = "Хлеб";
-    uint IProduct.CountProduct { get; set; } = 0;
+    public string Name { get; } = "Хлеб";
+    public uint StockCount { get; set; } = 0;
 }

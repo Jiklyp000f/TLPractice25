@@ -1,5 +1,5 @@
 ﻿public class Milk : IProduct
 {
-    string IProduct.ProductName { get; } = "Молоко";
-    uint IProduct.CountProduct { get; set; } = 0;
+    public string Name { get; } = "Молоко";
+    public uint StockCount { get; set; } = 0;
 }

@@ -1,5 +1,34 @@
-﻿public class User()
+﻿public class User
 {
-    public string UserName { get; set; } = "NO NAME"; //Имя пользователя
-    public string Adress { get; set; } = "NO ADRESS"; //Адресс пользователя
+    private string UserName { get; set; }
+    private string UserAdress { get; set; }
+    public string Name
+    {
+        get
+        {
+            return UserName;
+        }
+        set
+        {
+            UserName = value;
+        }
+    }
+
+    public string Adress
+    {
+        get
+        {
+            return UserAdress;
+        }
+        set
+        {
+            UserAdress = value;
+        }
+    }
+
+    public User()
+    {
+        UserName = "NO NAME";
+        UserAdress = "NO ADRESS";
+    }
 }
