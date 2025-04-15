@@ -2,10 +2,10 @@
 {
     static void Main()
     {
-        var dictionary = new DictionaryManager("hello", "привет");
+        var dictionary = new DictionaryManager( "hello", "привет", $"../../../crud.txt" ); //допилить логику с названием файлов (есть задумка выводить список файлов ../../../*.txt и после спрашивать у юзера какой файл он хочет использовать или создать новый...) так же доделать логику выбора файлов при работе программы
         try
         {
-            Menu( dictionary );
+            Print( dictionary );
         }
         finally
         {
@@ -15,7 +15,7 @@
         }
     }
 
-    public static void Menu( DictionaryManager dictionary )
+    public static void Print( DictionaryManager dictionary ) //поработать над переиспользованием этого метода, допустим если слова будут приходить не из консоли, а из другого источника, поразмышлять можно ли отвязать логику поиска слова в словаре от логики консоли?
     {
         while ( true )
         {

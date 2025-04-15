@@ -1,37 +1,79 @@
 ﻿
 public class DictionaryManager
 {
-    private Dictionary<string, string> dictionary = new Dictionary<string, string>();
-    private static readonly string FileName = Path.Combine( AppDomain.CurrentDomain.BaseDirectory, "../../../dictionary.txt" );
+    private Dictionary<string, string> _dictionary = new Dictionary<string, string>();
+    private string _fileName;
 
     public DictionaryManager()
+        : this( Path.Combine( AppDomain.CurrentDomain.BaseDirectory, $"../../../dictionary.txt" ) )
     {
-        Console.WriteLine( "Конструктор 1 вызван" );
-        dictionary = new Dictionary<string, string>();
-        LoadDictionaryManager();
-        Console.WriteLine( "Конструктор 1 отработал" );
     }
-    public DictionaryManager( string initialWord, string initialTranslation ) : this()
+    public DictionaryManager( string fileName )
     {
-        Console.WriteLine( "Конструктор 2 вызван" ); // Логирование вызова
+        _fileName = fileName;
+        _dictionary = new Dictionary<string, string>();
+        LoadDictionaryManager();
+    }
+
+    public DictionaryManager( string initialWord, string initialTranslation, string fileName ) : this( fileName )
+    {
 
         // Сначала добавляем начальные данные (если переданы)
         if ( !string.IsNullOrEmpty( initialWord ) && !string.IsNullOrEmpty( initialTranslation ) )
         {
-            if ( !dictionary.ContainsKey( initialWord.ToLower() ) )
+            if ( !_dictionary.ContainsKey( initialWord.ToLower() ) )
             {
                 AddWord( initialWord, initialTranslation );
             }
         }
-
-        Console.WriteLine( "Конструктор 2 отработал" );
     }
 
+    public string TranslateWord( string word )
+    {
+        return _dictionary.ContainsKey( word.ToLower() )
+            ? _dictionary[ word.ToLower() ]
+            : null;
+    }
+
+    public bool AddWord( string word, string translation )
+    {
+        if ( !_dictionary.ContainsKey( word.ToLower() ) )
+        {
+            _dictionary.Add( word.ToLower(), translation );
+            SaveDictionary();
+            return true;
+        }
+        return false;
+    }
+
+    public void SaveDictionary()
+    {
+        try
+        {
+            List<string> lines = new List<string>();
+            foreach ( var pair in _dictionary )
+            {
+                lines.Add( $"{pair.Key}:{pair.Value}" );
+            }
+            File.WriteAllLines( _fileName, lines.ToArray() );
+            Console.WriteLine( $"Данные сохранены в: {_fileName}" );
+            Console.WriteLine( $"Количество записей: {_dictionary.Count}" );
+        }
+        catch ( Exception ex )
+        {
+            Console.WriteLine( $"Ошибка при сохранении словаря: {ex.Message}" );
+        }
+    }
+
+    public bool ContainsWord( string word )
+    {
+        return _dictionary.ContainsKey( word.ToLower() );
+    }
     private void LoadDictionaryManager()
     {
         try
         {
-            string fullPath = Path.GetFullPath( FileName );
+            string fullPath = Path.GetFullPath( _fileName );
             Console.WriteLine( $"Загрузка из: {fullPath}" );
             if ( !File.Exists( fullPath ) )
             {
@@ -48,56 +90,14 @@ public class DictionaryManager
                 string[] parts = line.Split( ':' );
                 if ( parts.Length == 2 )
                 {
-                    dictionary.Add( parts[ 0 ].Trim(), parts[ 1 ].Trim() );
+                    _dictionary.Add( parts[ 0 ].Trim(), parts[ 1 ].Trim() );
                 }
             }
-            Console.WriteLine( $"Загружено {dictionary.Count} записей." );
+            Console.WriteLine( $"Загружено {_dictionary.Count} записей." );
         }
         catch ( Exception ex )
         {
             Console.WriteLine( $"Ошибка при загрузке словаря: {ex.Message}" );
         }
-    }
-
-    public string TranslateWord( string word )
-    {
-        return dictionary.ContainsKey( word.ToLower() )
-            ? dictionary[ word.ToLower() ]
-            : null;
-    }
-
-    public bool AddWord( string word, string translation )
-    {
-        if ( !dictionary.ContainsKey( word.ToLower() ) )
-        {
-            dictionary.Add( word.ToLower(), translation );
-            SaveDictionary();
-            return true;
-        }
-        return false;
-    }
-
-    public void SaveDictionary()
-    {
-        try
-        {
-            List<string> lines = new List<string>();
-            foreach ( var pair in dictionary )
-            {
-                lines.Add( $"{pair.Key}:{pair.Value}" );
-            }
-            File.WriteAllLines( FileName, lines.ToArray() );
-            Console.WriteLine( $"Данные сохранены в: {FileName}" );
-            Console.WriteLine( $"Количество записей: {dictionary.Count}" );
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Ошибка при сохранении словаря: {ex.Message}" );
-        }
-    }
-
-    public bool ContainsWord( string word )
-    {
-        return dictionary.ContainsKey( word.ToLower() );
     }
 }
