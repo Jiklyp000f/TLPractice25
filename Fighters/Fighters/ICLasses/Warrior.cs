@@ -8,5 +8,5 @@
 
     public int Evasion => 0;
 
-    public string Name => "Воин";
+    public string Name => "воин";
 }

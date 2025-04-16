@@ -1,42 +1,56 @@
 ﻿public class Fighter : IFighter
 {
-    public int MaxHealth => throw new NotImplementedException();
+    public int MaxHealth => Race.Health + Weapon.Health + Classes.Health + Armor.Health;
 
-    public int CurrentHealth => throw new NotImplementedException();
+    public int CurrentHealth { get; private set; }
 
-    public int Evasion => throw new NotImplementedException();
+    public int Evasion => Weapon.Evasion + Classes.Evasion + Armor.Evasion;
 
-    public int Initiative => throw new NotImplementedException();
+    public int Initiative => Race.Initiative;
 
-    public string Name => throw new NotImplementedException();
+    public string Name { get; }
 
-    public string FullName => throw new NotImplementedException();
+    public string FullName => $"{Race.Name} {Name} - {Classes.Name}";
 
-    public IWeapon Weapon => throw new NotImplementedException();
+    public IWeapon Weapon { get; }
 
-    public IRace Race => throw new NotImplementedException();
+    public IRace Race { get; }
 
-    public IClasses Classing => throw new NotImplementedException();
+    public IClasses Classes { get; }
 
-    public IArmor Armor => throw new NotImplementedException();
+    public IArmor Armor { get; }
+
+    public Fighter( string name, IRace race, IWeapon weapon, IArmor armor, IClasses classes )
+    {
+        Name = name;
+        Race = race;
+        Weapon = weapon;
+        Armor = armor;
+        Classes = classes;
+        CurrentHealth = MaxHealth;
+    }
 
     public int CalculateDamage()
     {
-        throw new NotImplementedException();
+        return Race.Damage + Classes.Damage + Weapon.Damage;
     }
 
     public int CalculateProtect()
     {
-        throw new NotImplementedException();
+        return Classes.Armor + Armor.Armor;
     }
 
     public void TakeDamage( int damage )
     {
-        throw new NotImplementedException();
+        CurrentHealth -= damage;
+        if ( CurrentHealth < 0 )
+        {
+            CurrentHealth = 0;
+        }
     }
 
     public string WhoIAm()
     {
-        throw new NotImplementedException();
+        return "Информация обо мне:\n" + FullName;
     }
 }

@@ -9,7 +9,7 @@
 
     public IWeapon Weapon { get; }
     public IRace Race { get; }
-    public IClasses Classing { get; }
+    public IClasses Classes { get; }
     public IArmor Armor { get; }
 
     public void TakeDamage( int damage );
