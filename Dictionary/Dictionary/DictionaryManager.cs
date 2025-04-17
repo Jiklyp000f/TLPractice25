@@ -1,103 +1,74 @@
 ﻿
 public class DictionaryManager
 {
-    private Dictionary<string, string> _dictionary = new Dictionary<string, string>();
-    private string _fileName;
+    private readonly Dictionary<string, string> _dictionary = new();
+    private readonly string _filePath;
+    public event Action<string> Notification;
 
-    public DictionaryManager()
-        : this( Path.Combine( AppDomain.CurrentDomain.BaseDirectory, $"../../../dictionary.txt" ) )
+    public DictionaryManager( string filePath )
     {
-    }
-    public DictionaryManager( string fileName )
-    {
-        _fileName = fileName;
-        _dictionary = new Dictionary<string, string>();
-        LoadDictionaryManager();
+        _filePath = filePath;
+        LoadDictionary();
     }
 
-    public DictionaryManager( string initialWord, string initialTranslation, string fileName ) : this( fileName )
-    {
-
-        // Сначала добавляем начальные данные (если переданы)
-        if ( !string.IsNullOrEmpty( initialWord ) && !string.IsNullOrEmpty( initialTranslation ) )
-        {
-            if ( !_dictionary.ContainsKey( initialWord.ToLower() ) )
-            {
-                AddWord( initialWord, initialTranslation );
-            }
-        }
-    }
-
-    public string TranslateWord( string word )
-    {
-        return _dictionary.ContainsKey( word.ToLower() )
-            ? _dictionary[ word.ToLower() ]
+    public string TranslateWord( string word ) =>
+        _dictionary.TryGetValue( word.ToLower(), out var translation )
+            ? translation
             : null;
-    }
 
     public bool AddWord( string word, string translation )
     {
-        if ( !_dictionary.ContainsKey( word.ToLower() ) )
+        var lowerWord = word.ToLower();
+        if ( _dictionary.TryAdd( lowerWord, translation ) )
         {
-            _dictionary.Add( word.ToLower(), translation );
             SaveDictionary();
             return true;
         }
         return false;
     }
 
+    public bool ContainsWord( string word ) =>
+        _dictionary.ContainsKey( word.ToLower() );
+
+    private void LoadDictionary()
+    {
+        try
+        {
+            if ( !File.Exists( _filePath ) )
+            {
+                File.Create( _filePath ).Close();
+                Notification?.Invoke( "Создан новый файл словаря" );
+                return;
+            }
+
+            foreach ( var line in File.ReadAllLines( _filePath )
+                .Where( l => !string.IsNullOrWhiteSpace( l ) ) )
+            {
+                var parts = line.Split( new[] { ':' }, 2 );
+                if ( parts.Length == 2 )
+                {
+                    _dictionary[ parts[ 0 ].Trim() ] = parts[ 1 ].Trim();
+                }
+            }
+            Notification?.Invoke( $"Загружено {_dictionary.Count} записей" );
+        }
+        catch ( Exception ex )
+        {
+            Notification?.Invoke( $"Ошибка загрузки: {ex.Message}" );
+        }
+    }
+
     public void SaveDictionary()
     {
         try
         {
-            List<string> lines = new List<string>();
-            foreach ( var pair in _dictionary )
-            {
-                lines.Add( $"{pair.Key}:{pair.Value}" );
-            }
-            File.WriteAllLines( _fileName, lines.ToArray() );
-            Console.WriteLine( $"Данные сохранены в: {_fileName}" );
-            Console.WriteLine( $"Количество записей: {_dictionary.Count}" );
+            var lines = _dictionary.Select( kv => $"{kv.Key}:{kv.Value}" );
+            File.WriteAllLines( _filePath, lines );
+            Notification?.Invoke( $"Словарь сохранен ({_dictionary.Count} записей)" );
         }
         catch ( Exception ex )
         {
-            Console.WriteLine( $"Ошибка при сохранении словаря: {ex.Message}" );
-        }
-    }
-
-    public bool ContainsWord( string word )
-    {
-        return _dictionary.ContainsKey( word.ToLower() );
-    }
-    private void LoadDictionaryManager()
-    {
-        try
-        {
-            string fullPath = Path.GetFullPath( _fileName );
-            Console.WriteLine( $"Загрузка из: {fullPath}" );
-            if ( !File.Exists( fullPath ) )
-            {
-                File.Create( fullPath ).Close();
-                Console.WriteLine( $"Файл создан" );
-                return;
-            }
-            string[] lines = File.ReadAllLines( fullPath );
-            foreach ( var line in lines )
-            {
-                var trimmedLine = line.Trim();
-                if ( string.IsNullOrEmpty( trimmedLine ) )
-                    continue;
-                string[] parts = line.Split( ':' );
-                if ( parts.Length == 2 )
-                {
-                    _dictionary.Add( parts[ 0 ].Trim(), parts[ 1 ].Trim() );
-                }
-            }
-            Console.WriteLine( $"Загружено {_dictionary.Count} записей." );
-        }
-        catch ( Exception ex )
-        {
-            Console.WriteLine( $"Ошибка при загрузке словаря: {ex.Message}" );
+            Notification?.Invoke( $"Ошибка сохранения: {ex.Message}" );
         }
     }
 }
