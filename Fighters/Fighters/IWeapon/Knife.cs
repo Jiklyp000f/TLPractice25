@@ -5,4 +5,6 @@
     public int Evasion => 10;
 
     public int Health => 0;
+
+    public string Name => "нож";
 }

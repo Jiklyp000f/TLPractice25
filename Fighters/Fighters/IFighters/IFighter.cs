@@ -15,5 +15,6 @@
     public void TakeDamage( int damage );
     public int CalculateDamage();
     public int CalculateProtect();
-    public string WhoIAm();
+    public string GetHealthDisplay();
+    public string GetFullInfo();
 }
