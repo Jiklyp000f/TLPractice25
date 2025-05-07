@@ -13,7 +13,18 @@ public class Program
         var fighters = CreateFighters( fighterFactory );
         PrintFightersInfo( fighters );
 
-        new GameMaster().PlayAndGetWinner( fighters );
+        var master = new GameMaster();
+        var winner = master.PlayAndGetWinner( fighters );
+
+        if ( winner is null )
+        {
+            Console.WriteLine( $"\nПобедителя нет." );
+        }
+        else
+        {
+            Console.WriteLine( $"\nПобедитель: {winner.Name}" );
+        }
+
     }
 
     private static IFighterFactory InitializeFighterFactory( ISelectionMenu menu )
