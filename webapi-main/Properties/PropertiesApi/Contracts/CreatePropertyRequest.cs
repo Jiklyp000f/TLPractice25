@@ -2,8 +2,12 @@
 
 namespace PropertiesApi.Contracts;
 
-public class CreatePropertyRequest
-{
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-}
+public record CreatePropertyRequest(
+    [property: JsonPropertyName( "name" )] string Name );
+
+public record UpdatePropertyRequest(
+    [property: JsonPropertyName( "name" )] string Name );
+
+public record PropertyResponse(
+    [property: JsonPropertyName( "id" )] Guid Id,
+    [property: JsonPropertyName( "name" )] string Name );
