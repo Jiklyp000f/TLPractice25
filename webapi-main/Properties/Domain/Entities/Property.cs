@@ -3,16 +3,11 @@
 public class Property
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
-
-    public Property( string name )
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new ArgumentException($"\"{nameof(name)}\" не может быть пустым или содержать только пробел.", nameof(name));
-        }
-
-        Id = Guid.NewGuid();
-        Name = name;
-    }
+    public string Name { get; set; } = null!;
+    public string Country { get; set; } = null!;
+    public string City { get; set; } = null!;
+    public string Address { get; set; } = null!;
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
+    public List<RoomType> RoomTypes { get; set; } = new();
 }

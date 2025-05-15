@@ -2,11 +2,12 @@
 
 namespace Domain.Repositories;
 
-public interface IPropertiesRepository
+public interface IPropertyRepository
 {
-    void Add(Property property);
-    Property? GetById(Guid id);
-    List<Property> List();
-    void Update(Property property);
-    void DeleteById(Guid id);
+    Task<Property?> GetByIdAsync( Guid id );
+    Task<List<Property>> GetAllAsync();
+    Task AddAsync( Property property );
+    Task UpdateAsync( Property property );
+    Task DeleteAsync( Guid id );
+    Task<List<Property>> GetByCityAsync( string city );
 }
