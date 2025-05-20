@@ -1,5 +1,69 @@
 body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+h1, h2 {
+  color: bisque;
+}
+
+a {
+  color: bisque;
+  text-decoration: none;
+}
+
+p{
+  color: bisque;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2%;
+  background-color: black;
+}
+
+.footer{
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  align-self: end;
+}
+
+.container {
+  margin-top: 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.first-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.main-text{
+  font-size: 250%;
+  display: flex;
+  justify-content: center;
+  color: black;
+}
+
+.main-text.b1{
+  font-weight: bold;
+  color: red;
+}
+
+.main-text.b2{
+  margin-top: 0;
+  font-weight: bold;
+  color: orange;
+}
+
